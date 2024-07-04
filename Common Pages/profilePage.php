@@ -1,5 +1,39 @@
 <?php
 
+    session_start();
+    require_once("../db/dbconnector.php");
+
+    $username = $_SESSION["username"];
+    $qry1 = "SELECT * FROM users WHERE username ='$username'";
+    $result1 = $conn->query($qry1);  
+    $row1 = $result1->fetch_assoc();
+    
+    
+    //$username = $row1['username'];
+    $email = $row1["email"];
+    $password = $row1["passwords"];
+
+    if(isset($_POST['edit'])){
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $cfpassword = $_POST['cfpassword'];
+      
+        if($password===$cfpassword){      
+            $sql = "UPDATE users SET username='$username', email='$email', passwords='$password' WHERE username='$username'";
+            $rs = mysqli_query($conn,$sql);
+
+            if($rs){
+                /*$_SESSION['status']="Account created successfully";
+                header("location:  adminLogin.php");*/
+            }
+        }
+        else{
+            /*header ("location:  adminSignUp.php?error=Wrong password");
+            exit();*/
+        }  
+    }
+   
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,24 +44,39 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <title>Home Page</title>
+        <title>Your Profile</title>
     </head>
     <body  style="background-color: #E6E6EE;">
-        <aside>
-            <div class="my-2 py-1 mx-2 px-3">
-              <img src="../Images/Logo.png" width="50px" height="50px" style="cursor: pointer;">  
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <?php
+                    include "../reusable/sidebar.php";
+                ?>
+                <div class="col-10 my-2 mx-5 px-5">
+                    <section style="background: white; border-radius: 50px;">
+                        <div class="d-flex justify-content-center">
+                            <form method="POST" class="px-5 py-5" id="signUp">
+                                <h3>Your Account Information</h3>
+                                <p class="mt-3" style="color: grey;">View or Edit Your Profile Below</p>
+
+                                <label for="username" class="mt-3">Username:</label><br>
+                                <input class="form-control" type="text" id="username" name="username" value=<?php echo $username; ?>><br>
+                                    
+                                <label for="email">Email:</label><br>
+                                <input class="form-control" type="text" id="email" name="email" value=<?php echo $email; ?>><br>
+                                    
+                                <label for="Password">Password:</label><br>
+                                <input class="form-control" type="password" id="password" name="password" value=<?php echo $password; ?>><br>
+
+                                <label for="PasswordConfirm">Confirm Password:</label><br>
+                                <input class="form-control" type="password" id="cfpassword" name="cfpassword" required><br>
+                                    
+                                <input class="btn text-white px-2 form-control" type="submit" id="edit" name="edit" value="Edit" style="background-color: #8282AB; border-radius: 20px;">                      
+                            </form>
+                        </div>
+                    </section>
+                </div>
             </div>
-            <div class="container my-2 mx-2 pt-2 pb-3 px-4 rounded align-items-center" style="width: 75px; background: #23297A; display: flex; flex-direction: column; overflow: hidden;">
-                <i class="bi bi-wallet2 fs-1 mt-2 mb-1" style="color: white; cursor: pointer;" title="Budget Your Finances"></i>
-                <i class="bi bi-cash-coin fs-1 mb-1" style="color: white; cursor: pointer;" title="Input Your Expenditure"></i>
-                <i class="bi bi-bullseye fs-1 mb-1" style="color: white; cursor: pointer;" title="Set Your Targets"></i>
-                <i class="bi bi-youtube fs-1 mb-1" style="color: white; cursor: pointer;" title="Helpful Videos"></i>
-                <i class="bi bi-question-circle-fill fs-1 mb-1" style="color: white; cursor: pointer;" title="Help"></i>
-            </div>
-            <div class="container my-2 mx-2 mb-2 pt-2 pb-3 px-4 rounded align-items-center" style="width: 75px; background: #23297A; display: flex; flex-direction: column; overflow: hidden;">
-                <i class="bi bi-person-fill fs-1 mb-1" style="color: white; cursor: pointer;" title="Profile"></i>
-                <i class="bi bi-gear-fill fs-1 mb-1" style="color: white; cursor: pointer;" title="Settings"></i>
-            </div>
-        </aside>
+        </div>
     </body>
 </html>
