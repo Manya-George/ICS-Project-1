@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/webp" href="Images/Logo.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+        <title>Calculator</title>
+       <style >
+       body {
+        font-family: Arial, sans-serif;
+        background-color: #lightskyblue;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 100px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    </style>
+    </head>
+   
+        
+
+    <body  style="background-color: #E6E6EE;">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+                
+                  <a class="navbar-brand mx-2" href="#"><img src="Images/Logo.png" alt="" width="60px" height="60px"></a>
+                  <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="nav">
+                      <li class="nav-item">
+                        <a class="nav-link active text-black" aria-current="page" href="#">Why us </a>
+                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link active text-black" aria-current="page" href="#">About us   </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active text-black" aria-current="page" href="https://www.tuko.co.ke/281951-loan-apps-kenya-genuine-instant-loans.html">loans</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active text-black" aria-current="page" href="https://omokadigital.com/saving/best-savings-accounts/#:~:text=The%20Best%20Savings%20Accounts%20in%20Kenya%20These%20are,Account%20Stanbic%20Savings%20Account%20ABSA%E2%80%99s%20Junior%20Eagle%20Account">Savings Accounts  </a>
+                      </li>
+
+                    </ul>
+                  </div>
+                  <div>
+                   
+                    <button class="btn text-white" type="button" style="border-radius: 20px; border-width: 2px; background-color: #23297A;" onclick="window.location.href = 'index.php';">Home</button>
+
+                    <button class="btn btn-outline-dark btn-1 text-black mx-2" type="button" style="border-radius: 20px; border-width: 2px; border-color: #23297A;"onclick="window.location.href = 'index.php';">Back</button>
+
+                  </div>
+                </div>
+              </nav>
+    </header>
+
+        <div class="container-fluid mt-2">
+            <div class="row">
+               
+    
+                        <div style="background: white; border-radius: 50px;" class="mt-3">
+                            <div class="d-flex justify-content-center">
+                                
+                                   <div class="container">
+        <h1>Compound Interest Calculator</h1>
+        <label for="principal">Principal Amount:</label>
+        <input type="number" id="principal" step="0.01" required><br><br>
+
+        <label for="rate">Annual Interest Rate (as a decimal):</label>
+        <input type="number" id="rate" step="0.01" required><br><br>
+
+        <label for="time">Number of Years:</label>
+        <input type="number" id="time" required><br><br>
+
+        <button onclick="calculateCompoundInterest()">Calculate</button><br><br>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateCompoundInterest() {
+            var principal = parseFloat(document.getElementById("principal").value);
+            var rate = parseFloat(document.getElementById("rate").value);
+            var time = parseInt(document.getElementById("time").value);
+
+            var amount = principal * Math.pow(1 + rate, time);
+            var result = "Total amount after compound interest: KSH" + amount.toFixed(2);
+
+            document.getElementById("result").textContent = result;
+        }
+    </script>                       
+                              
+                    </div>
+                </div>
+
+
+
+
+
+ <div class="container-fluid mt-2">
+            <div class="row">
+               
+    
+                        <div style="background: white; border-radius: 50px;" class="mt-3">
+                            <div class="d-flex justify-content-center">
+                                
+                                   <div class="container">
+        <h1>50/30/20 Saving Calculator with 16% Tax</h1>
+        <p> A penny saved is a penny earned.</p>
+        <label for="income">Monthly income:</label>
+        <input type="number" id="income" step="0.01" required><br><br>
+
+        <button onclick="calculate()">Calculate</button><br><br>
+
+        <p id="Spending"></p>
+        <p id="Investment"></p>
+        <p id="Savings"></p>
+        <p id="Tax"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            var income = parseFloat(document.getElementById("income").value);
+            var Tax = (income * 0.16).toFixed(2);
+            var afterTaxIncome = income - parseFloat(Tax);
+            var Spending = (afterTaxIncome * 0.5).toFixed(2);
+            var Investment= (afterTaxIncome * 0.3).toFixed(2);
+             var Savings = (afterTaxIncome * 0.2).toFixed(2);
+
+            document.getElementById("Spending").innerHTML = "Spending (50%): KSH" + Spending;
+            document.getElementById("Investment").innerHTML = "Investment (30%): KSH" + Investment;
+            document.getElementById("Savings").innerHTML = "Savings (20%): KSH" + Savings;
+            document.getElementById("Tax").innerHTML = "Tax (16%): KSH" + Tax;
+        }
+    </script>
+                </div>    
+                              
+                    </div>
+                </div>
+        </div>
+    </body>
+    <footer style="background-color: #E6E6EE;">
+        <div class=" text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    
+                </div>
+               
+                <div class="col-md-4">
+                    <p>Nairobi,Kenya</p>
+                    <p>Email: corruptionbuster@gmail.com</p>
+                    <p>Phone: +254 456 7890</p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <p class="mb-0">Copyright 2024 CorruptionBuster | All Rights Reserved | <span style="color: blue; cursor: pointer;">Privacy Policy </span>| <span style="color: blue; cursor: pointer;">Terms of Service</span></p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <h5>Follow Us</h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+</html>
