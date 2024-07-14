@@ -1,6 +1,7 @@
 <?php
     require_once("../db/dbconnector.php");
     session_start();
+
     $userID = $_SESSION["userID"];
 
     if (isset($_POST['add'])){
@@ -9,7 +10,9 @@
     elseif(isset($_POST['view'])){
         header("Location: viewTargets.php");
     }
-
+    elseif(isset($_POST['calculate'])){
+        header("Location: calculator.php");
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,12 +40,13 @@
                         <section style="background: white; border-radius: 50px;" class="mt-3">
                             <div class="d-flex justify-content-center">
                                 <form class="px-3 py-5" id="expenditure" method="POST">
-                                    <h3>Targets</h3>
+                                    <h3>Targets (Breakpoints): Ksh.<?php echo $breakpoint ?></h3>
                                     <p class="mt-3" style="color: grey;">Add Your Saving Targets and Goals Below</p>
 
                                     <img src="../Images/goalsImg.png" width="450px" height="200px"><br>
                                         
-                                    <input class="btn text-white px-2 form-control mt-4" type="submit" id="add" name="add" value="Add Saving Target" style="background-color: #8282AB; border-radius: 20px;" onclick="window.location.href='addTarget.php'">                       
+                                    <input class="btn text-white px-5 py-2 mt-4" type="submit" id="add" name="add" value="Add Saving Target" style="background-color: #8282AB; border-radius: 20px;" onclick="window.location.href='addTarget.php'"> 
+                                    <input class="btn text-white px-5 py-2 mt-4" type="submit" id="calculate" name="calculate" value="Calculate Saving Plan" style="background-color: #8282AB; border-radius: 20px;" onclick="window.location.href='calculator.php'">                       
                                 </form>
                             </div>
                         </section>
@@ -50,8 +54,8 @@
                 </div>
                 <div class="col-4 my-2 py-2 mx-2 px-3" style="background-color: white; border-radius: 25px;">
                     <div class="d-flex">
-                        <p class="py-2 px-2">Within Saving Goal</p>
-                        <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: green;"></div>
+                        <p class="py-2 px-2"><?php echo $balanceMessage ?></p>
+                        <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: <?php echo $balanceColor; ?>;"></div>
                     </div>
                     <div>
                         <?php
@@ -73,7 +77,7 @@
                                 }
                             } else {
                                 //echo '<img src="../Images/notransaction.png" alt="No transactions" width="400px" height="150px">';
-                                echo '<h2>No Transcations Made</h2>';
+                                echo '<h2 class="text-center">No Targets Set</h2>';
                             }
 
                             $stmt->close();

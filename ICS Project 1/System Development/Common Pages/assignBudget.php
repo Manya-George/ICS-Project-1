@@ -1,24 +1,38 @@
 <?php
-    require_once("../db/dbconnector.php");
+
     session_start();
+    require_once("../db/dbconnector.php");
 
-    $userID = $_SESSION["userID"];
-    $recordAdded = false;
+    if(isset($_GET['userID'])){
 
-    if(isset($_POST['submit'])){
+        $userID = $_GET['userID'];
 
-        $target = $_POST['savingAmount'];
-        $month = $_POST['month'];
-          
-            $sql = "INSERT INTO targets(target, duration, userID) VALUES('$target', '$month', '$userID')";
-            $rs = mysqli_query($conn,$sql);
+        $qry1 = "SELECT * FROM users WHERE userID ='$userID'";
+        $result1 = $conn->query($qry1);  
+        $row1 = $result1->fetch_assoc();
 
-            if ($rs) {
+        $username = $row1['username'];
+        $recordAdded = false;
+
+        if(isset($_POST['submit'])){
+
+            $budget = $_POST['budgetAmount'];
+            $month = $_POST['month'];
+            $breakpoint = $_POST['breakpoint'];
+    
+            $sql1 = "INSERT INTO Budget(budget, breakpoint, userID, duration, months) VALUES ('$budget', '$breakpoint', '$userID', 'Monthly', '$month')";
+            $rs1 = mysqli_query($conn, $sql1);
+
+            if ($rs1) {
                 $recordAdded = true;
             } else {
                 echo "Error: " . mysqli_error($conn);
             }
+          
+        }
+
     }
+       
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,17 +58,25 @@
                 display: none;
             }
         </style>
-        <title>Add Target Page</title>
+        <title>Assign Budget</title>
     </head>
     <body>
         <div class="container">
             <div class="row align-items-center">
-                <h2 class="text-center mt-4 mb-4 mx-5 px-5">Set Your Saving Targets<span class="mx-5 px-5"><i id="close" class="bi bi-x fs-1" style="color: black; cursor: pointer;" title="Close Page" onclick="window.location.href='targetsPage.php'"></i></span></h2>
+                <h2 class="text-center mt-4 mb-4 mx-5 px-5">Assign Account Budget<span class="mx-5 px-5"><i id="close" class="bi bi-x fs-1" style="color: black; cursor: pointer;" title="Close Page" onclick="window.location.href='viewAccounts.php'"></i></span></h2>
             </div>
-                <form method="POST" id="targetsForm">
+                <form method="POST" id="assignbudgetForm">
                     <div class="mb-3">
-                        <label for="savingAmount" class="form-label">Amount To Save (Ksh.)</label>
-                        <input type="text" class="form-control" id="savingAmount" name="savingAmount" required>
+                        <label for="userame" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="username" name="username" value=<?php echo $username; ?>>
+                    </div>
+                    <div class="mb-3">
+                        <label for="budgetAmount" class="form-label">Budget Amount</label>
+                        <input type="number" class="form-control" id="budgetAmount" name="budgetAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="breakpoint" class="form-label">Break Point</label>
+                        <input type="number" class="form-control" id="breakpoint" name="breakpoint" required>
                     </div>
                     <div class="mb-3">
                         <label for="month" class="form-label">Month</label>
@@ -75,25 +97,26 @@
                         </select>
                     </div>
 
-                    <input class="btn text-white px-2 form-control mt-4" type="submit" id="submit" name="submit" value="Add Target" style="background-color: #8282AB; border-radius: 20px;">
+                    <input class="btn text-white px-2 form-control mt-4" type="submit" id="submit" name="submit" value="Allocate Budget" style="background-color: #8282AB; border-radius: 20px;">
                 </form>
         </div>
         <div id="alertBox" class="alert-box">
-            <strong class="text-center">Confirmed!</strong><br> Record Added Successfully!
+            <strong class="text-center">Confirmed!</strong><br> Budget Assigned Successfully!
         </div>
-        <script>
-            function showAlert() {
-                var alertBox = document.getElementById('alertBox');
-                alertBox.style.display = 'block';
-                setTimeout(function() {
-                    alertBox.style.display = 'none';
-                    window.location.href = 'viewTargets.php';
-                }, 2000);
-            }
 
-            <?php if ($recordAdded): ?>
-            showAlert();
-            <?php endif; ?>
-        </script>
+    <script>
+        function showAlert() {
+            var alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'block';
+            setTimeout(function() {
+                alertBox.style.display = 'none';
+                window.location.href = 'viewAccounts.php';
+            }, 2000);
+        }
+
+        <?php if ($recordAdded): ?>
+        showAlert();
+        <?php endif; ?>
+    </script>
     </body>
 </html>

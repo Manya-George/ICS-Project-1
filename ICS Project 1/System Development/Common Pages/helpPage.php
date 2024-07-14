@@ -83,11 +83,13 @@
             <option value="problem1">How to report corruption</option>
             <option value="problem2">How to budget money</option>
             <option value="problem3">How to spend money </option>
-            <option value="problem4">How should write my corruption report</option>
+            <option value="problem4">How should I write my corruption report</option>
         </select>
              <label for="problemSelect">How select issue you may be experiencing:</label>
     </div>
     <input class="btn text-white px-2 form-control" type="submit" id="solveBtn" name="Answer" value="Answer" style="background-color: #007bff; border-radius: 20px;">
+
+    <p class="mt-3">Want To <span style="color: blue; cursor: pointer;"><a href="corruptionPage.html">Learn More</a></span> About Corruption And How To Report It?</p>
 </div>
 </section>
 </div>
@@ -119,16 +121,16 @@
         
         switch (selectedProblem) {
             case 'problem1':
-                response = "If you have evidence a corrupt act may have taken place, the next step will usually be to report the corrupt act to an authority that can investigate and take action against the wrongdoer";
+                response = "If you have evidence a corrupt act may have taken place, the next step will usually be to report the corrupt act to an authority that can investigate and take action against the wrongdoer.";
                 break;
             case 'problem2':
-                response = "Calculate your net income,Track your spending,Set realistic goals,Make a plan ,Adjust your spending to stay on budget ,Review your budget regularly.";
+                response = "Calculate your net income, Track your spending, Set realistic goals, Make a plan, Adjust your spending to stay on budget, Review your budget regularly.";
                 break;
             case 'problem3':
-                response = "Create a budget: Track your spending and income to understand your financial situation.Prioritize your spending: Focus on needs over wants.Avoid impulse purchases.Take advantage of sales and discounts.Live below your means.Invest your money";
+                response = "Create a budget: Track your spending and income to understand your financial situation. Prioritize your spending: Focus on needs over wants. Avoid impulse purchases. Take advantage of sales and discounts. Live below your means. Invest your money.";
                 break;
             case 'problem4':
-                response = "Describe the act or decision which was brought about by corruption. Explain the role of the wrongdoer.   Provide information about your relationship with the wrongdoer and summarise any dealings that you had with them.   State the reasons why you consider the act or decision was motivated by corruption.Identify the evidence that supports your claim throughout the document. Explain what would have happened if the corruption had not taken place. Explain what action you want the body receiving your report to take.";
+                response = "Describe the act or decision which was brought about by corruption. Explain the role of the wrongdoer. Provide information about your relationship with the wrongdoer and summarise any dealings that you had with them. State the reasons why you consider the act or decision was motivated by corruption. Identify the evidence that supports your claim throughout the document. Explain what would have happened if the corruption had not taken place. Explain what action you want the body receiving your report to take.";
                 break;
             default:
                 response = "Please select a problem.";

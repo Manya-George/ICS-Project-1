@@ -3,6 +3,7 @@
     session_start();
 
     $userID = $_SESSION["userID"];
+    $recordAdded = false;
 
     if(isset($_POST['submit'])){
 
@@ -14,6 +15,12 @@
           
             $sql = "INSERT INTO transactions(expensename, category, amount, paymentmethod, datepaid, userID) VALUES('$expensename', '$category', '$expenseamount', '$paymentmethod', '$dateofpayment', '$userID')";
             $rs = mysqli_query($conn,$sql);
+
+            if ($rs) {
+                $recordAdded = true;
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
     }
 ?>
 <!DOCTYPE html>
@@ -25,6 +32,22 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            .alert-box {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 20px;
+                background-color: #dff0d8;
+                color: #3c763d;
+                border: 1px solid #d6e9c6;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                display: none;
+            }
+        </style>
         <title>Add Expenditure Page</title>
     </head>
     <body>
@@ -63,5 +86,23 @@
                     <input class="btn text-white px-2 form-control mt-4" type="submit" id="submit" name="submit" value="Add Expense" style="background-color: #8282AB; border-radius: 20px;">
                 </form>
         </div>
+        <div id="alertBox" class="alert-box">
+            <strong class="text-center">Confirmed!</strong><br> Record Added Successfully!
+        </div>
+
+    <script>
+        function showAlert() {
+            var alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'block';
+            setTimeout(function() {
+                alertBox.style.display = 'none';
+                window.location.href = 'viewExpenditure.php';
+            }, 2000);
+        }
+
+        <?php if ($recordAdded): ?>
+        showAlert();
+        <?php endif; ?>
+    </script>
     </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
     require_once("../db/dbconnector.php");
     session_start();
+    
     $userID = $_SESSION["userID"];
 
     if (isset($_POST['add'])){
@@ -9,7 +10,6 @@
     elseif(isset($_POST['view'])){
         header("Location: viewExpenditure.php");
     }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -50,8 +50,8 @@
                 </div>
                 <div class="col-4 my-2 py-2 mx-2 px-3" style="background-color: white; border-radius: 25px;">
                     <div class="d-flex">
-                        <p class="py-2 px-2">Within Budget</p>
-                        <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: green;"></div>
+                        <p class="py-2 px-2"><?php echo $balanceMessage ?></p>
+                        <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: <?php echo $balanceColor; ?>;"></div>
                     </div>
                     <div>
                         <?php
@@ -73,7 +73,7 @@
                                 }
                             } else {
                                 //echo '<img src="../Images/notransaction.png" alt="No transactions" width="400px" height="150px">';
-                                echo '<h2>No Transcations Made</h2>';
+                                echo '<h2 class="text-center">No Transcations Made</h2>';
                             }
 
                             $stmt->close();

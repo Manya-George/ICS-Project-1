@@ -5,15 +5,30 @@ session_start();
 $userID = $_SESSION["userID"];
 
 if (isset($_POST['save'])) {
-    $budget = $_POST['budgetAmount'];
-    $duration = $_POST['budgetType'];
-    $breakpoint = $_POST['breakpoint'];
+    $budgetAmounts = $_POST['budgetAmount'];
+    $budgetTypes = $_POST['budgetType'];
+    $breakpoints = $_POST['breakpoint'];
+    $budgetMonths = $_POST['budgetMonth'];
 
-    $sql1 = "INSERT INTO Budget(budget, breakpoint, userID, duration) VALUES ('$budget', '$breakpoint', '$userID', '$duration')";
-    $rs1 = mysqli_query($conn, $sql1);
+    // Prepare the SQL statement for insertion
+    $sql1 = "INSERT INTO Budget(budget, breakpoint, userID, duration, months) VALUES (?, ?, ?, ?, ?)";
+    $stmt1 = $conn->prepare($sql1);
+
+    // Loop through each budget entry and insert it into the database
+    for ($i = 0; $i < count($budgetAmounts); $i++) {
+        $budget = $budgetAmounts[$i];
+        $duration = $budgetTypes[$i];
+        $breakpoint = $breakpoints[$i];
+        $month = $budgetMonths[$i];
+
+        $stmt1->bind_param("dsiss", $budget, $breakpoint, $userID, $duration, $month);
+        $stmt1->execute();
+    }
+
+    $stmt1->close();
 }
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +47,7 @@ if (isset($_POST['save'])) {
         <?php include "../reusable/sidebar.php"; ?>
         <div class="col-6 my-2 py-1 mx-4 px-3">
             <?php include "../reusable/budgetDisplay.php"; ?>
-            <div style="background: white; border-radius: 50px;" class="mt-3 px-3 py-5">
+            <div style="background: white; border-radius: 50px;" class="mt-3 px-5 py-5">
                 <h3>Fill your Budgets</h3>
                 <form method="POST" id="budgetForm">
                     <table class="table">
@@ -40,6 +55,7 @@ if (isset($_POST['save'])) {
                             <tr>
                                 <th>Amount (Ksh.)</th>
                                 <th>Type</th>
+                                <th>Month</th>
                                 <th>Break Point</th>
                             </tr>
                         </thead>
@@ -49,7 +65,7 @@ if (isset($_POST['save'])) {
                     </table>
                     <div>
                         <div style="display: flex; gap: 10px;">
-                            <input class="btn text-white px-4 form-control mt-4" type="submit" id="addBudget" name="addBudget" value="Add Budget" style="background-color: #8282AB; border-radius: 20px;"> 
+                            <input class="btn text-white px-4 form-control mt-4" type="button" id="addBudget" value="Add Budget" style="background-color: #8282AB; border-radius: 20px;"> 
                             <input class="btn text-white px-4 form-control mt-4" type="submit" id="save" name="save" value="Save Budget" style="background-color: #8282AB; border-radius: 20px;"> 
                         </div>
                     </div>
@@ -58,8 +74,8 @@ if (isset($_POST['save'])) {
         </div>
         <div class="col-4 my-2 py-1 mx-2 px-3" style="background-color: white; border-radius: 25px;">
             <div class="d-flex">
-                <p class="py-2 px-2">Within Budget</p>
-                <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: green;"></div>
+                <p class="py-2 px-2"><?php echo $balanceMessage ?></p>
+                <div class="my-3" style="width: 10px; height: 10px; border-radius: 10px; background-color: <?php echo $balanceColor; ?>;"></div>
             </div>
             <div>
                 <?php
@@ -144,15 +160,32 @@ if (isset($_POST['save'])) {
     addBudgetButton.addEventListener('click', function() {
         var budgetRow = document.createElement('tr');
         budgetRow.innerHTML = `
-            <td><input type="number" class="form-control" id="budgetAmount" name="budgetAmount" required></td>
+            <td><input type="number" class="form-control" id="budgetAmount" name="budgetAmount[]" required></td>
             <td>
-                <select class="form-select" id="budgetType" name="budgetType" required>
+                <select class="form-select" id="budgetType" name="budgetType[]" required>
                     <option value="">Select Type</option>
                     <option value="Weekly">Weekly</option>
                     <option value="Monthly">Monthly</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" id="breakpoint" name="breakpoint" required></td>
+            <td>
+                <select class="form-select" id="budgetMonth" name="budgetMonth[]" required>
+                    <option value="">Select Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control" id="breakpoint" name="breakpoint[]" required></td>
         `;
         budgetsContainer.appendChild(budgetRow);
     });
@@ -223,3 +256,4 @@ if (isset($_POST['save'])) {
 </script>
 </body>
 </html>
+

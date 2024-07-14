@@ -2,16 +2,22 @@
 
     require_once("../db/dbconnector.php");
     session_start();
-    $userID = $_SESSION["userID"];
-    $month = isset($_GET['month']) ? $_GET['month'] : '';
 
-    $sql = "SELECT * FROM transactions WHERE userID='$userID'";
+    if(isset($_GET['userID'])){
 
-    if ($month) {
-        $sql .= " AND MONTHNAME(datepaid) = '$month'";
+        $userID = $_GET['userID'];
+        $month = isset($_GET['month']) ? $_GET['month'] : '';
+
+        $sql = "SELECT * FROM transactions WHERE userID='$userID'";
+
+        if ($month) {
+            $sql .= " AND MONTHNAME(datepaid) = '$month'";
+        }
+
+        $rs = $conn->query($sql);
+
     }
-
-    $rs = $conn->query($sql);
+    
 
 ?>
 
@@ -27,7 +33,7 @@
         <title>Your Expenditure</title>
     </head>
     <body>
-        <h2 class="text-center mt-4 mb-4 mx-5 px-5">Your Expenditure<span class="mx-5 px-5"><i id="close" class="bi bi-x fs-1" style="color: black; cursor: pointer;" title="Close Page" onclick="window.location.href='expenditurePage.php'"></i></span></h2>
+        <h2 class="text-center mt-4 mb-4 mx-5 px-5">Your Expenditure<span class="mx-5 px-5"><i id="close" class="bi bi-x fs-1" style="color: black; cursor: pointer;" title="Close Page" onclick="window.location.href='viewAccounts.php'"></i></span></h2>
       
         <div class="container mb-4">
             <form method="GET" action="">

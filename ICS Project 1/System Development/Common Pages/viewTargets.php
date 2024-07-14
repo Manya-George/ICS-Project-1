@@ -36,6 +36,7 @@
                 <tr>
                     <td><?php echo $row['target'];?></td>
                     <td><?php echo $row['duration'];?></td>
+                    <td><i class="bi bi-trash" style="color: #FF2C2C; cursor: pointer;" title="Delete" onclick="window.location.href='deleteTarget.php?targetID=<?php echo $row['targetID']; ?>'"></i></td>
                 </tr>
             </tbody>
             <?php
